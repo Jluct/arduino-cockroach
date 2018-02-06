@@ -1,19 +1,18 @@
 #if !defined(Platform)
+#include <Arduino.h>
 
 class Platform
 {
   protected:
   public:
-    void forward();
-
-    void backward();
+    virtual void step(bool direction = true);
 
     /**
      * Только поворот. Направление движения определяются другими методами 
      */
-    void rotate(int deg);
+    virtual void rotate(int deg);
 
-    void stop();
+    virtual void stop();
 };
 
 #endif
