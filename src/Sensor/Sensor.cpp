@@ -1,9 +1,9 @@
 #include "Sensor.h"
+#include <Arduino.h>
 
-Sensor::Sensor(int (*call)(), bool (*logic)(int data))
+Sensor::Sensor(int (*call)())
 {
     this->call = call;
-    this->logic = logic;
 };
 
 int Sensor::getData()
@@ -11,8 +11,12 @@ int Sensor::getData()
     return this->data;
 };
 
-bool Sensor::callSensorHandler(int data)
+int Sensor::request()
 {
-    this->data = this->call(); // не уверен в работоспособности
-    return this->logic(this->data);
+    if ((millis() - this->lastCall) < this->validTime)
+    {
+        return this->data;
+    }
+    return this->data = this->call();
+    
 };

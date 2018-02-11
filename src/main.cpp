@@ -16,7 +16,7 @@ int pins[] = {8, 9, 10, 11};
 Legs4 platform(pins);
 EventGenerator eventGenerator;
 
-Sensor lightResistor(&isLight, &runIsLight);
+Sensor lightResistor(&isLight);
 
 DecisionMakingCenter dmc(&platform, &eventGenerator);
 
@@ -24,7 +24,7 @@ DecisionMakingCenter dmc(&platform, &eventGenerator);
 
 void setup()
 {
-    dmc.setSensor(&lightResistor);
+    // dmc.setSensor(&lightResistor);
     // put your setup code here, to run once:
 }
 

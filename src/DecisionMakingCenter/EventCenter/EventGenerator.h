@@ -1,15 +1,33 @@
 #if !defined EventGenerator
 
+#include "Event.h"
+#include <Arduino.h>
+
+
 class EventGenerator
 {
   private:
-    int activeIvent[];
+    int countActiveEvent = 0;
+    int *activeIvents;
+
+    Event **events;
+    int countEvents = 0;
+    int currentIvent = 0;
+    struct
+    {
+      int danger = 0;
+      int warning = 0;
+      int peace = 0;
+      bool testing = true;
+    } situation;
+
+    void addActiveEvent(int eventNumber);
+    void removeActiveEvent(int eventNUmber);
 
   public:
-    bool hasActiveEvent = false;
-    void setEvent();
-    void addAIvent(struct Event);
+    void addAEvent(Event *event);
     void removeEvent(int eventNumber);
+    void hasEvent();
 };
 
 #endif

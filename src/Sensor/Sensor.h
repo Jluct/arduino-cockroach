@@ -1,13 +1,17 @@
+#if !defined Sensor
+
 class Sensor
 {
   private:
     int data;
+    int lastCall = 0;
+    int validTime = 100;
     int (*call)();
-    bool (*logic)(int data);
 
   public:
-    Sensor(int (*call)(), bool (*logic)(int data));
+    Sensor(int (*call)());
     int getData();
-    bool callSensorHandler(int data);
-
+    int request();
 };
+
+#endif
