@@ -3,7 +3,6 @@
 #include "Event.h"
 #include <Arduino.h>
 
-
 class EventGenerator
 {
   private:
@@ -12,13 +11,16 @@ class EventGenerator
 
     Event **events;
     int countEvents = 0;
+    /**
+     * Номер проверяемого события
+     */
     int currentIvent = 0;
     struct
     {
-      int danger = 0;
-      int warning = 0;
-      int peace = 0;
-      bool testing = true;
+        int danger = 0;
+        int warning = 0;
+        int peace = 0;
+        bool testing = true;
     } situation;
 
     void addActiveEvent(int eventNumber);

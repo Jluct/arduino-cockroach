@@ -9,3 +9,17 @@ DecisionMakingCenter::DecisionMakingCenter(Legs4 *platform, EventGenerator *even
     this->platform = platform;
     this->eventGenerator = eventGenerator;
 };
+
+void DecisionMakingCenter::addBehavior(Behavior *behavior, int event)
+{
+    this->behavior = (Behavior **)realloc(this->behavior, this->countBehavior + 1 * sizeof(Behavior));
+    behavior->setNumber(this->countBehavior);
+    this->behavior[this->countBehavior] = behavior;
+    this->countBehavior++;
+
+    if(event == 0){
+        return;
+    }
+
+    
+}

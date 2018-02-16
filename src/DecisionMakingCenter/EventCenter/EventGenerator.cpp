@@ -61,4 +61,4 @@ void EventGenerator::hasEvent()
     {
         this->currentIvent++;
     }
-}
+};

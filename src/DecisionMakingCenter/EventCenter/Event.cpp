@@ -11,6 +11,10 @@ int Event::getNumber()
     return this->number;
 };
 
+/**
+ * Опрос сенсоров для генерирования события
+ * TODO: Заменить цикл на счётчик 
+ */
 bool Event::analizSensors()
 {
     for (int i = 0; i < this->countLogic; i++)
