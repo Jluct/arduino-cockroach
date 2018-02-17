@@ -21,5 +21,10 @@ void DecisionMakingCenter::addBehavior(Behavior *behavior, int event)
         return;
     }
 
-    
+    //????
+}
+
+void DecisionMakingCenter::addBehaviorRelation(Event *event, Behavior *behavior)
+{
+
 }

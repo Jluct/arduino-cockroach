@@ -1,4 +1,4 @@
-#if !defined EventGenerator
+#pragma once
 
 #include "Event.h"
 #include <Arduino.h>
@@ -31,5 +31,3 @@ class EventGenerator
     void removeEvent(int eventNumber);
     void hasEvent();
 };
-
-#endif

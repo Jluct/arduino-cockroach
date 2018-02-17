@@ -1,4 +1,4 @@
-#if !defined Behavior
+#pragma once
 
 class Behavior
 {
@@ -17,5 +17,3 @@ class Behavior
     void setCall(void (*call)());
     void callBehavior();
 };
-
-#endif

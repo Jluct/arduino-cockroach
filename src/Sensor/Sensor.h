@@ -1,4 +1,4 @@
-#if !defined Sensor
+#pragma once
 
 class Sensor
 {
@@ -13,5 +13,3 @@ class Sensor
     int getData();
     int request();
 };
-
-#endif

@@ -1,8 +1,9 @@
-#if !defined DecisionMakingCenter
+#pragma once
 
 #include "../Platform/Movement/Legs4.h"
 #include "./EventCenter/EventGenerator.h"
 #include "./Behavior/Behavior.h"
+#include "./BehaviorEventRelation/BehaviorEventRelation.h"
 
 class DecisionMakingCenter
 {
@@ -12,7 +13,7 @@ class DecisionMakingCenter
     EventGenerator *eventGenerator; // Генератор событий
     Behavior **behavior;
     int countBehavior = 0;
-    int **behaviorEventRelation;
+    struct Relation **behaviorEventRelation;
 
   public:
     DecisionMakingCenter(
@@ -21,8 +22,5 @@ class DecisionMakingCenter
 
     EventGenerator getEventGenerator();
     void addBehavior(Behavior *behavior, int event = 0);
-    void addBehaviorRelation(int event, int behavior);
-    
+    void addBehaviorRelation(Event *event, Behavior *behavior);
 };
-
-#endif

@@ -1,6 +1,5 @@
 #include <Arduino.h>
 #include "./DecisionMakingCenter/DecisionMakingCenter.h"
-// #include "./Platform/Movement/Legs4.h"
 
 int isLight()
 {
