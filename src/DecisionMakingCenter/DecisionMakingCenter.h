@@ -8,12 +8,14 @@
 class DecisionMakingCenter
 {
   private:
-    int countSensors = 0;           // кол-во сенсоров
-    Legs4 *platform;                // Палтформа передвижения
-    EventGenerator *eventGenerator; // Генератор событий
-    Behavior **behavior;
-    int countBehavior = 0;
-    struct Relation **behaviorEventRelation;
+    int countSensors = 0;                    // кол-во сенсоров
+    Legs4 *platform;                         // Палтформа передвижения
+    EventGenerator *eventGenerator;          // Генератор событий
+    Behavior **behavior;                     // Массив поведений
+    int countBehavior = 0;                   // Кол-во добавленных поведений
+    Relation **behaviorEventRelation; // массив структур для описания связи события и соответствующего ему поведения
+    int countBehaviorRelation = 0;           // Кол-во связей
+    void saveBehaviorRelation(Behavior *behavior);
 
   public:
     DecisionMakingCenter(
@@ -21,6 +23,7 @@ class DecisionMakingCenter
         EventGenerator *eventGenerator);
 
     EventGenerator getEventGenerator();
-    void addBehavior(Behavior *behavior, int event = 0);
+    void addBehavior(Behavior *behavior, Event *event);
+    void addBehavior(Behavior *behavior);
     void addBehaviorRelation(Event *event, Behavior *behavior);
 };
