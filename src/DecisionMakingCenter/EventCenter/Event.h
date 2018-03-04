@@ -18,9 +18,10 @@ class Event
     int actualSensor = 0;
 
   public:
+    Event();
     void addLogic(bool (*logic)(Event *event));
     bool analizSensors();
-    void hasEvent();
+    bool hasEvent();
 
     int getNumber();
     void setNumber(int number);
@@ -37,5 +38,5 @@ class Event
     * Добавляет сенсор в конец очереди
     */
     void setSensor(Sensor *sensor);
-    Sensor getSensor(int number);
+    Sensor *getSensor(int number);
 };

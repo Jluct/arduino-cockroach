@@ -1,33 +1,45 @@
 #include <Arduino.h>
 #include "./DecisionMakingCenter/DecisionMakingCenter.h"
+#include "./DecisionMakingCenter/EventCenter/Event.h"
 
 int isLight()
 {
     return random(0, 1023);
-};
+}
 
-bool runIsLight(int light)
+bool runIsLight(Event *event)
 {
-    return light > 500 ? true : false;
-};
+    return event->getSensor(0)->getData();
+}
+
+void stepRunOfLight()
+{
+    // както нужно бежать...
+    // методы для перемещения в платформе
+}
 
 int pins[] = {8, 9, 10, 11};
-Legs4 platform(pins);
-EventGenerator eventGenerator;
+Legs4 platform(pins);                                   // платформа "4 ноги"
+EventGenerator eventGenerator;                          // генератор событий
 
-Sensor lightResistor(&isLight);
+DecisionMakingCenter dmc(&platform, &eventGenerator);   // центр принятия решений 
 
-DecisionMakingCenter dmc(&platform, &eventGenerator);
-
-// dmc.setSensor(&lightResistor);
+Event brightLocation;                                   // событие "локация освещена"
+Sensor lightResistor(&isLight);                         // сенсор "фоторезистор"                    
+Behavior runOfLight(&stepRunOfLight);                   // поведение "бежать от света"
 
 void setup()
 {
-    // dmc.setSensor(&lightResistor);
-    // put your setup code here, to run once:
+    brightLocation.setSensor(&lightResistor);           // добавляем "событию" сенсор
+    brightLocation.addLogic(&runIsLight);               // добавляем "событию" обработчик сенсора
+
+    eventGenerator.addAEvent(&brightLocation);          // добавляем событие в генератор событий
+
+    dmc.addBehavior(&runOfLight);                       // добавляем поведение в "центр принятия решений"
+
 }
 
 void loop()
 {
-    // put your main code here, to run repeatedly:
+    dmc.getEventGenerator()->hasEvent();                // проверяем не наступило ли событие
 }

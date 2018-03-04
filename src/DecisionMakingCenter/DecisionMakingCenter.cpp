@@ -5,6 +5,10 @@
 #include "DecisionMakingCenter.h"
 #include "./BehaviorEventRelation/BehaviorEventRelation.h"
 
+EventGenerator *DecisionMakingCenter::getEventGenerator(){
+    return this->eventGenerator;
+};
+
 DecisionMakingCenter::DecisionMakingCenter(Legs4 *platform, EventGenerator *eventGenerator)
 {
     this->platform = platform;

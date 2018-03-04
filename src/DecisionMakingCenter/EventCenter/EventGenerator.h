@@ -11,6 +11,7 @@ class EventGenerator
 
     Event **events;
     int countEvents = 0;
+    
     /**
      * Номер проверяемого события
      */

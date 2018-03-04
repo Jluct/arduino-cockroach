@@ -1,6 +1,9 @@
 #include "Event.h"
 #include <Arduino.h>
 
+Event::Event(){
+
+};
 
 void Event::setNumber(int number)
 {
@@ -14,7 +17,6 @@ int Event::getNumber()
 
 /**
  * Опрос сенсоров для генерирования события
- * TODO: Заменить цикл на счётчик 
  */
 bool Event::analizSensors()
 {
@@ -31,7 +33,6 @@ bool Event::analizSensors()
 
 void Event::setSensor(Sensor *sensor)
 {
-
     if (!this->countSensors)
     {
         this->sensors[0] = sensor;
@@ -59,3 +60,11 @@ void Event::addLogic(bool (*logic)(Event *event))
     this->logic[this->countLogic] = logic;
     this->countLogic++;
 };
+
+Sensor *Event::getSensor(int number)
+{
+    if (this->sensors[number])
+    {
+        return this->sensors[number];
+    }
+}

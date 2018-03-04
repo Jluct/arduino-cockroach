@@ -1,5 +1,9 @@
 #include "Behavior.h"
 
+Behavior::Behavior(void (*call)()) {
+    this->call = call;
+};
+
 bool Behavior::getActive()
 {
     return this->active;
