@@ -5,7 +5,8 @@
 #include "DecisionMakingCenter.h"
 #include "./BehaviorEventRelation/BehaviorEventRelation.h"
 
-EventGenerator *DecisionMakingCenter::getEventGenerator(){
+EventGenerator *DecisionMakingCenter::getEventGenerator()
+{
     return this->eventGenerator;
 };
 
@@ -37,6 +38,12 @@ void DecisionMakingCenter::addBehavior(Behavior *behavior, Event *event)
     this->addBehaviorRelation(event, behavior);
 };
 
-void DecisionMakingCenter::addBehavior(Behavior *behavior){
+void DecisionMakingCenter::addBehavior(Behavior *behavior)
+{
     this->saveBehaviorRelation(behavior);
+};
+
+void DecisionMakingCenter::callBehavior()
+{
+
 };
