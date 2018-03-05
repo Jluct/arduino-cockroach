@@ -6,7 +6,7 @@ Legs4::Legs4(int pins[])
     *this->servo = new Servo[this->countDevice];
     for (int i = 0; i < this->countDevice; i++)
     {
-        this->servo[i] = &Servo();
+        this->servo[i] = new Servo;
         this->servo[i]->attach(pins[i]);
         this->servo[i]->write(90);
     }

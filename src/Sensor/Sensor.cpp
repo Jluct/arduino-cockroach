@@ -18,10 +18,12 @@ int Sensor::getData()
  */
 int Sensor::request()
 {
-    if ((millis() - this->lastCall) < this->validTime)
+    long int currentTime = millis();
+    if ((currentTime - this->lastCall) < this->validTime)
     {
         return this->data;
     }
+    this->lastCall = currentTime;
 
     return this->data = this->call();
 };

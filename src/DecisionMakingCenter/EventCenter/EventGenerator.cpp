@@ -28,7 +28,7 @@ void EventGenerator::removeActiveEvent(int eventNumber)
     delete[] tmp;
 }
 
-void EventGenerator::addAEvent(Event *event)
+void EventGenerator::addEvent(Event *event)
 {
     // регистрация события
     event->setNumber(this->countEvents);
@@ -44,7 +44,15 @@ void EventGenerator::addAEvent(Event *event)
     this->events[this->countEvents] = event;
 };
 
-void EventGenerator::hasEvent()
+/**
+ * Проверка на существования события
+ * По очереди вызываются события и связанные с ними датчики
+ * в случае если метод возвращает true считается что возникает событие
+ * Событие добавляется в список активных событий
+ * 
+ * TODO: Возможно метод будет пересмотрен
+ */
+void EventGenerator::eventsAnalis()
 {
     if (this->events[this->currentIvent]->analizSensors())
     {

@@ -66,5 +66,7 @@ Sensor *Event::getSensor(int number)
     if (this->sensors[number])
     {
         return this->sensors[number];
-    }
+    } 
+
+    return;
 }

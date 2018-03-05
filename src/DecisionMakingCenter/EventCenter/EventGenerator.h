@@ -28,7 +28,7 @@ class EventGenerator
     void removeActiveEvent(int eventNUmber);
 
   public:
-    void addAEvent(Event *event);
+    void addEvent(Event *event);
     void removeEvent(int eventNumber);
-    void hasEvent();
+    void eventsAnalis();
 };
