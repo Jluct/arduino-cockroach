@@ -44,22 +44,12 @@ void setup()
 {
     brightLocation.setSensor(&lightResistor); // добавляем "событию" сенсор
     brightLocation.addLogic(&tooBright);      // добавляем "событию" обработчик сенсора
+    brightLocation.addBehavior(&runOfLight);  // добавляем поведение в событие
 
     eventGenerator.addEvent(&brightLocation); // добавляем событие в генератор событий
-
-    dmc.addBehavior(&runOfLight); // добавляем поведение в "центр принятия решений"
-
-    /**
-     * добавляем связь между событием и поведением
-     * не уверен в таком типе связи
-     * она выбрана для того, что бы можно было интерпретировать события и выбирать поведение
-     */
-    dmc.addBehaviorRelation(
-        &brightLocation,
-        &runOfLight);
 }
 
 void loop()
 {
-    dmc.getEventGenerator()->eventsAnalis(); // проверяем не наступило ли событие
+    // dmc.getEventGenerator()->eventsAnalis(); // проверяем не наступило ли событие
 }

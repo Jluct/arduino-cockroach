@@ -1,5 +1,6 @@
 #include "Event.h"
 #include <Arduino.h>
+#include "../Behavior/Behavior.h"
 
 Event::Event(){
 
@@ -66,7 +67,20 @@ Sensor *Event::getSensor(int number)
     if (this->sensors[number])
     {
         return this->sensors[number];
-    } 
+    }
 
     return;
 }
+
+void Event::setActive(bool active)
+{
+    this->active = active;
+};
+
+void Event::addBehavior(Behavior *behavior)
+{
+    this->behavior = (Behavior **)realloc(this->behavior, (this->countBehavior + 1) * sizeof(Behavior));
+    behavior->setNumber(this->countBehavior);
+    this->behavior[this->countBehavior] = behavior;
+    this->countBehavior++;
+};

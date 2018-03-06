@@ -5,23 +5,26 @@
 
 class EventGenerator
 {
-  private:
-    int countActiveEvent = 0;
-    int *activeIvents;
+private:
+  int countActiveEvent = 0;
+  Event **activeIvents;
 
-    Event **events;
-    int countEvents = 0;
+  Event **events;
+  int countEvents = 0;
 
-    /**
+  /**
      * Номер проверяемого события
      */
-    int currentIvent = 0;
+  int currentIvent = 0;
 
-    void addActiveEvent(int eventNumber);
-    void removeActiveEvent(int eventNUmber);
+  void addActiveEvent(Event *event);
+  void removeActiveEvent(int eventNumber);
+  void controlCurrentIventCounter();
 
-  public:
-    void addEvent(Event *event);
-    void removeEvent(int eventNumber);
-    void eventsAnalis();
+public:
+  void addEvent(Event *event);
+  void removeEvent(int eventNumber);
+  bool eventsAnalis();
+  Event **getActiveEvents();
+  int getCountActiveEvent();
 };

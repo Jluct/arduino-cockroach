@@ -1,16 +1,16 @@
 #include "EventGenerator.h"
 #include <Arduino.h>
 
-void EventGenerator::addActiveEvent(int eventNumber)
+void EventGenerator::addActiveEvent(Event *event)
 {
-    this->activeIvents = (int *)realloc(this->activeIvents, (this->countActiveEvent + 1) * sizeof(int));
-    this->activeIvents[this->countActiveEvent] = eventNumber;
+    this->activeIvents = (Event **)realloc(this->activeIvents, (this->countActiveEvent + 1) * sizeof(Event));
+    this->activeIvents[this->countActiveEvent] = event;
     this->countActiveEvent++;
 };
 
 void EventGenerator::removeActiveEvent(int eventNumber)
 {
-    int *tmp = (int *)realloc(tmp, (this->countActiveEvent - 1) * sizeof(int));
+    Event **tmp = (Event **)realloc(tmp, (this->countActiveEvent - 1) * sizeof(Event));
     for (int i = 0; i < this->countActiveEvent; i++)
     {
         if (i == eventNumber)
@@ -23,8 +23,8 @@ void EventGenerator::removeActiveEvent(int eventNumber)
 
     this->countActiveEvent--;
     delete[] this->activeIvents;
-    this->activeIvents = new int[this->countActiveEvent];
-    memcpy(this->activeIvents, tmp, this->countActiveEvent);
+    this->activeIvents = (Event **)realloc(this->activeIvents, this->countActiveEvent * sizeof(Event));
+    memcpy(this->activeIvents, tmp, this->countActiveEvent * sizeof(Event));
     delete[] tmp;
 }
 
@@ -44,23 +44,8 @@ void EventGenerator::addEvent(Event *event)
     this->events[this->countEvents] = event;
 };
 
-/**
- * Проверка на существования события
- * По очереди вызываются события и связанные с ними датчики
- * в случае если метод возвращает true считается что возникает событие
- * Событие добавляется в список активных событий
- * 
- * TODO: Возможно метод будет пересмотрен
- */
-void EventGenerator::eventsAnalis()
+void EventGenerator::controlCurrentIventCounter()
 {
-    if (this->events[this->currentIvent]->analizSensors())
-    {
-        this->addActiveEvent(this->currentIvent);
-    } else {
-        this->removeActiveEvent(this->currentIvent);
-    }
-
     if (this->currentIvent >= this->countEvents)
     {
         this->currentIvent = 0;
@@ -69,4 +54,38 @@ void EventGenerator::eventsAnalis()
     {
         this->currentIvent++;
     }
+}
+
+/**
+ * Проверка на существования события
+ * По очереди вызываются события и связанные с ними датчики
+ * в случае если метод возвращает true считается что возникает событие
+ * Событие добавляется в список активных событий
+ * 
+ * TODO: Возможно метод будет пересмотрен
+ */
+bool EventGenerator::eventsAnalis()
+{
+    if (this->events[this->currentIvent]->analizSensors())
+    {
+        this->events[this->currentIvent]->setActive(true);
+        this->addActiveEvent(this->events[this->currentIvent]);
+        this->controlCurrentIventCounter();
+        return true;
+    }
+
+    this->events[this->currentIvent]->setActive(false);
+    this->removeActiveEvent(this->currentIvent);
+    this->controlCurrentIventCounter();
+    return false;
+};
+
+Event **EventGenerator::getActiveEvents()
+{
+    return this->activeIvents;
+};
+
+int EventGenerator::getCountActiveEvent()
+{
+    return this->countActiveEvent;
 };

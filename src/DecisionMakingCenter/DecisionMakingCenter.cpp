@@ -16,34 +16,15 @@ DecisionMakingCenter::DecisionMakingCenter(Legs4 *platform, EventGenerator *even
     this->eventGenerator = eventGenerator;
 };
 
-void DecisionMakingCenter::saveBehaviorRelation(Behavior *behavior)
-{
-    this->behavior = (Behavior **)realloc(this->behavior, (this->countBehavior + 1) * sizeof(Behavior));
-    behavior->setNumber(this->countBehavior);
-    this->behavior[this->countBehavior] = behavior;
-    this->countBehavior++;
-};
-
-void DecisionMakingCenter::addBehaviorRelation(Event *event, Behavior *behavior)
-{
-    struct Relation relation = {event, behavior};
-    this->behaviorEventRelation = (Relation **)realloc(this->behaviorEventRelation, (this->countBehaviorRelation + 1) * sizeof(Relation));
-    this->behaviorEventRelation[this->countBehaviorRelation] = &relation;
-    this->countBehaviorRelation++;
-};
-
-void DecisionMakingCenter::addBehavior(Behavior *behavior, Event *event)
-{
-    this->saveBehaviorRelation(behavior);
-    this->addBehaviorRelation(event, behavior);
-};
-
-void DecisionMakingCenter::addBehavior(Behavior *behavior)
-{
-    this->saveBehaviorRelation(behavior);
-};
-
 void DecisionMakingCenter::callBehavior()
 {
+    for (int i = 0; this->eventGenerator->getCountActiveEvent(); i++)
+    {
+        this->eventGenerator->getActiveEvents()[i]->callBehavior(0);
+    }
+};
 
+void DecisionMakingCenter::testSituation()
+{
+    this->eventGenerator->eventsAnalis();
 };
