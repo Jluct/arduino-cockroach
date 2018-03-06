@@ -84,3 +84,28 @@ void Event::addBehavior(Behavior *behavior)
     this->behavior[this->countBehavior] = behavior;
     this->countBehavior++;
 };
+
+void Event::setType(int type)
+{
+    this->type = type;
+};
+
+void Event::setProgressType(int step)
+{
+    this->progressType = step;
+};
+
+void Event::setRegressType(int step)
+{
+    this->regressType = step;
+};
+
+int Event::getProgressType()
+{
+    return this->progressType;
+};
+
+int Event::getRegressType()
+{
+    return this->regressType;
+};

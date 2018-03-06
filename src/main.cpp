@@ -42,6 +42,7 @@ Behavior runOfLight(&stepRunOfLight); // поведение "бежать от �
 
 void setup()
 {
+    brightLocation.setType(1);                // Указываем тип события
     brightLocation.setSensor(&lightResistor); // добавляем "событию" сенсор
     brightLocation.addLogic(&tooBright);      // добавляем "событию" обработчик сенсора
     brightLocation.addBehavior(&runOfLight);  // добавляем поведение в событие

@@ -6,9 +6,11 @@
 class Event
 {
   private:
-    int number;          // Текущий номер в генераторе событий
-    bool active = false; // Активно ли событие
-    short int type;      // Тип события
+    int number;           // Текущий номер в генераторе событий
+    bool active = false;  // Активно ли событие
+    short int type;       // Тип события
+    int progressType = 1; // Шаг прогресса типа события при вызове события
+    int regressType = 1;  // Шаг регресса в случае если вобытие не было вызвано
 
     Sensor **sensors;     // Массив сенсоров
     int countSensors = 0; // Количество сенсоров
@@ -46,4 +48,10 @@ class Event
     */
     void setSensor(Sensor *sensor);
     Sensor *getSensor(int number);
+
+    void setProgressType(int step);
+    void setRegressType(int step);
+
+    int getProgressType();
+    int getRegressType();
 };

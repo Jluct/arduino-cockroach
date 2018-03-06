@@ -17,10 +17,15 @@ DecisionMakingCenter::DecisionMakingCenter(Legs4 *platform, EventGenerator *even
 };
 
 void DecisionMakingCenter::callBehavior()
-{
+{   
+
     for (int i = 0; this->eventGenerator->getCountActiveEvent(); i++)
     {
-        this->eventGenerator->getActiveEvents()[i]->callBehavior(0);
+        Event *event = this->eventGenerator->getActiveEvents()[i];
+
+        // TODO: Как регрес вызвать?
+        this->currentSituation[event->getType()] += event->getProgressType();
+        event->callBehavior(0);
     }
 };
 

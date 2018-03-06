@@ -75,8 +75,10 @@ bool EventGenerator::eventsAnalis()
     }
 
     this->events[this->currentIvent]->setActive(false);
+    // TODO: где то тут нужно вызвать регрес
     this->removeActiveEvent(this->currentIvent);
     this->controlCurrentIventCounter();
+
     return false;
 };
 
