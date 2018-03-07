@@ -9,10 +9,13 @@
 class DecisionMakingCenter
 {
   private:
-    int countSensors = 0;           // Кол-во сенсоров
-    Legs4 *platform;                // Палтформа передвижения
-    EventGenerator *eventGenerator; // Генератор событий
-    int *currentSituation;          // Текущая ситуация. Каждое сработка события или НЕ сработка увеличивает/уменьшает счётчик типов ситуации
+    int countSensors = 0;                // Кол-во сенсоров
+    Legs4 *platform;                     // Палтформа передвижения
+    EventGenerator *eventGenerator;      // Генератор событий
+    
+    unsigned long int *currentSituation; // Текущая ситуация. Каждое сработка события или НЕ сработка увеличивает/уменьшает счётчик типов ситуации
+
+    int getActualSituation();
 
   public:
     DecisionMakingCenter(

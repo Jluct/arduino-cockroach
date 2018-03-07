@@ -24,7 +24,7 @@ private:
 public:
   void addEvent(Event *event);
   void removeEvent(int eventNumber);
-  bool eventsAnalis();
+  bool eventsAnalis(Event *eventStorage);
   Event **getActiveEvents();
   int getCountActiveEvent();
 };

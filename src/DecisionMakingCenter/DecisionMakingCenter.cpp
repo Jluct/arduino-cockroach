@@ -5,6 +5,10 @@
 #include "DecisionMakingCenter.h"
 #include "./BehaviorEventRelation/BehaviorEventRelation.h"
 
+int DecisionMakingCenter::getActualSituation(){
+    return 0;
+};
+
 EventGenerator *DecisionMakingCenter::getEventGenerator()
 {
     return this->eventGenerator;
@@ -17,19 +21,29 @@ DecisionMakingCenter::DecisionMakingCenter(Legs4 *platform, EventGenerator *even
 };
 
 void DecisionMakingCenter::callBehavior()
-{   
-
+{
     for (int i = 0; this->eventGenerator->getCountActiveEvent(); i++)
     {
         Event *event = this->eventGenerator->getActiveEvents()[i];
-
-        // TODO: Как регрес вызвать?
-        this->currentSituation[event->getType()] += event->getProgressType();
-        event->callBehavior(0);
+        event->callBehavior(this->getActualSituation());
     }
 };
 
+/**
+ * Проверка на вызов события
+ * Если событие было вызвано то управление передаётся дальше
+ * Если нет - уменьшаем счётчик текущей ситуации
+ * 
+ * TODO: Может и прогресс тут выставлять?
+ * 
+ */
 void DecisionMakingCenter::testSituation()
 {
-    this->eventGenerator->eventsAnalis();
+    Event *event;
+    if (!this->eventGenerator->eventsAnalis(event))
+    {
+        this->currentSituation[event->getType()] -= event->getRegress();
+    }
+
+    this->currentSituation[event->getType()] += event->getProgress();
 };

@@ -62,20 +62,24 @@ void EventGenerator::controlCurrentIventCounter()
  * в случае если метод возвращает true считается что возникает событие
  * Событие добавляется в список активных событий
  * 
+ * Event *eventStorage - ссылка на область памяти куда будет помещён объект события
+ * 
  * TODO: Возможно метод будет пересмотрен
  */
-bool EventGenerator::eventsAnalis()
+bool EventGenerator::eventsAnalis(Event *eventStorage)
 {
+    eventStorage = this->events[this->currentIvent];
+
     if (this->events[this->currentIvent]->analizSensors())
     {
         this->events[this->currentIvent]->setActive(true);
         this->addActiveEvent(this->events[this->currentIvent]);
         this->controlCurrentIventCounter();
+
         return true;
     }
 
     this->events[this->currentIvent]->setActive(false);
-    // TODO: где то тут нужно вызвать регрес
     this->removeActiveEvent(this->currentIvent);
     this->controlCurrentIventCounter();
 

@@ -90,22 +90,22 @@ void Event::setType(int type)
     this->type = type;
 };
 
-void Event::setProgressType(int step)
+void Event::setProgress(int step)
 {
-    this->progressType = step;
+    this->progress = step;
 };
 
-void Event::setRegressType(int step)
+void Event::setRegress(int step)
 {
-    this->regressType = step;
+    this->regress = step;
 };
 
-int Event::getProgressType()
+int Event::getProgress()
 {
-    return this->progressType;
+    return this->progress;
 };
 
-int Event::getRegressType()
+int Event::getRegress()
 {
-    return this->regressType;
+    return this->regress;
 };
