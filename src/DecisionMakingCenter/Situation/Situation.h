@@ -1,12 +1,11 @@
 #pragma once
 
 /**
- * Надо доработать
+ * TODO: Рефакторинг в объект
+ * Для удобства использования
  */
 struct Situation
 {
-    int defaultState = 0;
-    int danger = 0;
-    int warning = 0;
-    bool testing = true;
+    char name[12];
+    unsigned long int data;
 };

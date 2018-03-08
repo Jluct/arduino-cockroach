@@ -3,9 +3,9 @@
 #endif
 
 #include "DecisionMakingCenter.h"
-#include "./BehaviorEventRelation/BehaviorEventRelation.h"
 
-int DecisionMakingCenter::getActualSituation(){
+int DecisionMakingCenter::getActualSituation()
+{
     return 0;
 };
 
@@ -34,16 +34,21 @@ void DecisionMakingCenter::callBehavior()
  * Если событие было вызвано то управление передаётся дальше
  * Если нет - уменьшаем счётчик текущей ситуации
  * 
- * TODO: Может и прогресс тут выставлять?
- * 
  */
 void DecisionMakingCenter::testSituation()
 {
     Event *event;
-    if (!this->eventGenerator->eventsAnalis(event))
+    if (this->eventGenerator->eventsAnalis(event))
     {
-        this->currentSituation[event->getType()] -= event->getRegress();
+        this->situation[event->getType()]->data += event->getProgress();
     }
 
-    this->currentSituation[event->getType()] += event->getProgress();
+    this->situation[event->getType()]->data -= event->getRegress();
+};
+
+void DecisionMakingCenter::addSituation(Situation *situation)
+{
+    this->situation = (Situation **)realloc(this->situation, sizeof(Situation) * (this->countSituation + 1));
+    this->situation[this->countSituation] = situation;
+    this->countSituation++;
 };

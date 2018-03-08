@@ -30,6 +30,10 @@ void stepRunOfLight()
     // методы для перемещения в платформе
 }
 
+void defaultAction()
+{
+}
+
 int pins[] = {8, 9, 10, 11};
 Legs4 platform(pins);          // платформа "4 ноги"
 EventGenerator eventGenerator; // генератор событий
@@ -38,15 +42,27 @@ DecisionMakingCenter dmc(&platform, &eventGenerator); // центр принят
 
 Event brightLocation;                 // событие "локация освещена"
 Sensor lightResistor(&isLight);       // сенсор "фоторезистор"
+
+Behavior defaultBehavior(&defaultAction); // поведение "бежать от света"
 Behavior runOfLight(&stepRunOfLight); // поведение "бежать от света"
+
+//TODO: Вынести в фабрику
+struct Situation defaultSituation = {"default", 0}; // ситуация по умолчанию
+struct Situation dangerSituation = {"danger", 0};   // ситуация "опастность"
 
 void setup()
 {
-    brightLocation.setType(1);                // Указываем тип события
-    brightLocation.setProgress(10);           // Устанавливаем шаг прогресса ситуации
-    brightLocation.setSensor(&lightResistor); // добавляем "событию" сенсор
-    brightLocation.addLogic(&tooBright);      // добавляем "событию" обработчик сенсора
-    brightLocation.addBehavior(&runOfLight);  // добавляем поведение в событие
+    dmc.addSituation(&defaultSituation); // Добавляем дефолтную ситуацию
+    dmc.addSituation(&dangerSituation);  // Добавляем ситуацию "опастность"
+
+    brightLocation.setType(1);                  // Указываем тип события
+    brightLocation.setProgress(10);             // Устанавливаем шаг прогресса ситуации
+    
+    brightLocation.setSensor(&lightResistor);   // добавляем "событию" сенсор
+    brightLocation.addLogic(&tooBright);        // добавляем "событию" обработчик сенсора
+
+    brightLocation.addBehavior(&defaultBehavior); // добавляем дефолтное поведение в событие
+    brightLocation.addBehavior(&runOfLight);    // добавляем поведение в событие в случае если локация освещена
 
     eventGenerator.addEvent(&brightLocation); // добавляем событие в генератор событий
 }
