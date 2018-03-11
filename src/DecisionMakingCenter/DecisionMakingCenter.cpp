@@ -3,10 +3,12 @@
 #endif
 
 #include "DecisionMakingCenter.h"
+#include "DecisionMakingCenter/Situation/Situation.h"
+#include "../Platform/Movement/Legs4.h"
 
 int DecisionMakingCenter::getActualSituation()
 {
-    return 0;
+    return 1;
 };
 
 EventGenerator *DecisionMakingCenter::getEventGenerator()
@@ -25,7 +27,7 @@ void DecisionMakingCenter::callBehavior()
     for (int i = 0; this->eventGenerator->getCountActiveEvent(); i++)
     {
         Event *event = this->eventGenerator->getActiveEvents()[i];
-        event->callBehavior(this->getActualSituation());
+        event->callBehavior(this->getActualSituation(), this->platform);
     }
 };
 

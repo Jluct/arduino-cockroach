@@ -1,4 +1,6 @@
-#if !defined Legs4
+#pragma once
+
+#include <Arduino.h>
 #include "Servo.h"
 
 /**
@@ -30,4 +32,3 @@ class Legs4
 
     void stop();
 };
-#endif

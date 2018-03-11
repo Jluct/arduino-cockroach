@@ -2,6 +2,7 @@
 
 #include "../../Sensor/Sensor.h"
 #include "../Behavior/Behavior.h"
+#include "../../Platform/Movement/Legs4.h"
 
 class Event
 {
@@ -39,7 +40,7 @@ class Event
     void setType(int type);
 
     int getCountSensors();
-    void callBehavior(int type);
+    void callBehavior(int type, Legs4 *platform);
 
     void addBehavior(Behavior *behavior);
 

@@ -32,6 +32,11 @@ bool Event::analizSensors()
     return false;
 };
 
+void Event::callBehavior(int type, Legs4 *platform)
+{
+    this->behavior[type]->callBehavior(platform);
+};
+
 void Event::setSensor(Sensor *sensor)
 {
     if (!this->countSensors)
@@ -88,6 +93,11 @@ void Event::addBehavior(Behavior *behavior)
 void Event::setType(int type)
 {
     this->type = type;
+};
+
+int Event::getType()
+{
+    return this->type;
 };
 
 void Event::setProgress(int step)

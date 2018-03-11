@@ -12,7 +12,6 @@ class DecisionMakingCenter
     Legs4 *platform;                // Платформа передвижения
     EventGenerator *eventGenerator; // Генератор событий
 
-    unsigned long int *currentSituation; // Текущая ситуация. Каждое сработка события или НЕ сработка увеличивает/уменьшает счётчик типов ситуации. Меняем на структуру
     struct Situation **situation;
     int countSituation = 0;
 
@@ -24,8 +23,6 @@ class DecisionMakingCenter
         EventGenerator *eventGenerator);
 
     EventGenerator *getEventGenerator();
-
-    void addBehaviorRelation(Event *event, Behavior *behavior);
 
     void testSituation();
     void callBehavior();
