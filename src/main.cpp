@@ -55,8 +55,7 @@ struct Situation dangerSituation = {"danger", 0};   // ситуация "опа�
 
 void setup()
 {
-
-    platform.init(pins);
+    platform.init(pins); // Передаём массив с пинами для инициализации серво
 
     dmc.addSituation(&defaultSituation); // Добавляем дефолтную ситуацию
     dmc.addSituation(&dangerSituation);  // Добавляем ситуацию "опастность"
@@ -75,7 +74,6 @@ void setup()
 
 void loop()
 {
-
     dmc.testSituation(); // проверяем не наступило ли событие
     dmc.callBehavior();  // вызываем обработчик события по ситуации
 }

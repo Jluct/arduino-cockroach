@@ -8,7 +8,18 @@
 
 int DecisionMakingCenter::getActualSituation()
 {
-    return 1;
+    int rezult = 0;
+    unsigned long int max = 0;
+
+    for (int i = 0; i < this->countSituation; i++)
+    {
+        if(this->situation[i]->data >= max){
+            max = this->situation[i]->data;
+            rezult = i;
+        }
+    }
+
+    return rezult;
 };
 
 EventGenerator *DecisionMakingCenter::getEventGenerator()
