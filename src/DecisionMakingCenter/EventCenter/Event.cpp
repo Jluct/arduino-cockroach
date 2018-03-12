@@ -23,8 +23,10 @@ bool Event::analizSensors()
 {
     for (int i = 0; i < this->countLogic; i++)
     {
+
         if (this->logic[i](this))
         {
+            Serial.println("test");
             return true;
         }
     }
@@ -67,14 +69,15 @@ void Event::addLogic(bool (*logic)(Event *event))
     this->countLogic++;
 };
 
-Sensor *Event::getSensor(int number)
+bool Event::getSensor(int number, Sensor *sensor)
 {
     if (this->sensors[number])
     {
-        return this->sensors[number];
+        sensor = this->sensors[number];
+        return true;
     }
 
-    return;
+    return false;
 }
 
 void Event::setActive(bool active)

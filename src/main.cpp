@@ -9,7 +9,11 @@
  */
 int isLight()
 {
-    return analogRead(A0);
+    // Serial.println(110, DEC);
+    // return analogRead(A0);
+    int data = random(0, 1023);
+    Serial.println((int)2, DEC);
+    return data;
 }
 
 /**
@@ -18,7 +22,14 @@ int isLight()
  */
 bool tooBright(Event *event)
 {
-    return event->getSensor(0)->getData() >= 500;
+    Sensor *sensor1;
+    // Serial.println((int)11, DEC);
+    if (event->getSensor(0, sensor1))
+    {
+        return sensor1->getData() >= 100;
+    }
+
+    return false;
 }
 
 /**
@@ -28,37 +39,42 @@ bool tooBright(Event *event)
  */
 void stepRunOfLight(Legs4 *platform)
 {
+    // Serial.println(112, DEC);
     platform->step();
 }
 
 void defaultAction(Legs4 *platform)
 {
+    // Serial.println(113, DEC);
     platform->stop();
 }
 
-int pins[] = {9,10};
-Legs4 platform; // платформа "4 ноги"
-
-EventGenerator eventGenerator; // генератор событий
-
-DecisionMakingCenter dmc(&platform, &eventGenerator); // центр принятия решений
-
-Event brightLocation;           // событие "локация освещена"
-Sensor lightResistor(&isLight); // сенсор "фоторезистор"
-
-Behavior defaultBehavior(&defaultAction); // поведение "бежать от света"
-Behavior runOfLight(&stepRunOfLight);     // поведение "бежать от света"
-
-//TODO: Вынести в фабрику
-struct Situation defaultSituation = {"default", 0}; // ситуация по умолчанию
-struct Situation dangerSituation = {"danger", 0};   // ситуация "опастность"
+DecisionMakingCenter dmc; // центр принятия решений
 
 void setup()
 {
+    Serial.begin(9600);
+
+    int pins[] = {9, 10};
+    Legs4 platform; // платформа "4 ноги"
+
+    EventGenerator eventGenerator; // генератор событий
+
+    Event brightLocation;           // событие "локация освещена"
+    Sensor lightResistor(&isLight); // сенсор "фоторезистор"
+
+    Behavior defaultBehavior(&defaultAction); // поведение по умолчанию
+    Behavior runOfLight(&stepRunOfLight);     // поведение "бежать от света"
+
+    //TODO: Вынести в фабрику
+    struct Situation defaultSituation = {"default", 0}; // ситуация по умолчанию
+    struct Situation dangerSituation = {"danger", 0};   // ситуация "опасность"
+
     platform.init(pins); // Передаём массив с пинами для инициализации серво
+    // Serial.println(100, DEC);
 
     dmc.addSituation(&defaultSituation); // Добавляем дефолтную ситуацию
-    dmc.addSituation(&dangerSituation);  // Добавляем ситуацию "опастность"
+    dmc.addSituation(&dangerSituation);  // Добавляем ситуацию "опасность"
 
     brightLocation.setType(1);      // Указываем тип события
     brightLocation.setProgress(10); // Устанавливаем шаг прогресса ситуации
@@ -70,10 +86,13 @@ void setup()
     brightLocation.addBehavior(&runOfLight);      // добавляем поведение в событие в случае если локация освещена
 
     eventGenerator.addEvent(&brightLocation); // добавляем событие в генератор событий
+
+    dmc.init(&platform, &eventGenerator); // центр принятия решений
 }
 
 void loop()
 {
+    // Serial.println("LOOP");
     dmc.testSituation(); // проверяем не наступило ли событие
     dmc.callBehavior();  // вызываем обработчик события по ситуации
 }

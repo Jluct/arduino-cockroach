@@ -48,7 +48,7 @@ class Event
     * Добавляет сенсор в конец очереди
     */
     void setSensor(Sensor *sensor);
-    Sensor *getSensor(int number);
+    bool getSensor(int number, Sensor * sensor);
 
     void setProgress(int step);
     void setRegress(int step);

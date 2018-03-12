@@ -18,7 +18,7 @@ class DecisionMakingCenter
     int getActualSituation();
 
   public:
-    DecisionMakingCenter(
+    void init(
         Legs4 *platform,
         EventGenerator *eventGenerator);
 

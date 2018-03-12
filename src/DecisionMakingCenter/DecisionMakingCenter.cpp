@@ -13,7 +13,8 @@ int DecisionMakingCenter::getActualSituation()
 
     for (int i = 0; i < this->countSituation; i++)
     {
-        if(this->situation[i]->data >= max){
+        if (this->situation[i]->data >= max)
+        {
             max = this->situation[i]->data;
             rezult = i;
         }
@@ -27,7 +28,7 @@ EventGenerator *DecisionMakingCenter::getEventGenerator()
     return this->eventGenerator;
 };
 
-DecisionMakingCenter::DecisionMakingCenter(Legs4 *platform, EventGenerator *eventGenerator)
+void DecisionMakingCenter::init(Legs4 *platform, EventGenerator *eventGenerator)
 {
     this->platform = platform;
     this->eventGenerator = eventGenerator;
@@ -53,10 +54,10 @@ void DecisionMakingCenter::testSituation()
     Event *event;
     if (this->eventGenerator->eventsAnalis(event))
     {
-        this->situation[event->getType()]->data += event->getProgress();
+        this->situation[event->getType()]->data += this->situation[event->getType()]->data < 500 ? event->getProgress() : 0;
     }
 
-    this->situation[event->getType()]->data -= event->getRegress();
+    this->situation[event->getType()]->data -= this->situation[event->getType()]->data > 0 ? event->getRegress() : 0;
 };
 
 void DecisionMakingCenter::addSituation(Situation *situation)
