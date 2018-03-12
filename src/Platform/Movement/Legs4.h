@@ -10,7 +10,7 @@
 class Legs4
 {
   private:
-    Servo *servo[];
+    Servo **servo;
     int countDevice;
     int *pins;
     /**
@@ -21,7 +21,7 @@ class Legs4
     void servoRotate(int first, int second);
 
   public:
-    Legs4(int pins[]);
+    void init(int *pins);
 
     void step();
 

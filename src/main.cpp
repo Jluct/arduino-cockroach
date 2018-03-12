@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include "./DecisionMakingCenter/DecisionMakingCenter.h"
 #include "./DecisionMakingCenter/EventCenter/Event.h"
+#include "Servo.h"
 
 /**
  * функция-заглушка
@@ -36,7 +37,8 @@ void defaultAction(Legs4 *platform)
 }
 
 int pins[] = {9,10};
-Legs4 platform(pins);          // платформа "4 ноги"
+Legs4 platform; // платформа "4 ноги"
+
 EventGenerator eventGenerator; // генератор событий
 
 DecisionMakingCenter dmc(&platform, &eventGenerator); // центр принятия решений
@@ -53,6 +55,9 @@ struct Situation dangerSituation = {"danger", 0};   // ситуация "опа�
 
 void setup()
 {
+
+    platform.init(pins);
+
     dmc.addSituation(&defaultSituation); // Добавляем дефолтную ситуацию
     dmc.addSituation(&dangerSituation);  // Добавляем ситуацию "опастность"
 
@@ -70,6 +75,7 @@ void setup()
 
 void loop()
 {
+
     dmc.testSituation(); // проверяем не наступило ли событие
     dmc.callBehavior();  // вызываем обработчик события по ситуации
 }

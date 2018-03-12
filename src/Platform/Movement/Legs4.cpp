@@ -1,9 +1,10 @@
 #include "Legs4.h"
+#include <Arduino.h>
+#include "Servo.h"
 
-Legs4::Legs4(int pins[])
-{
-    this->countDevice = sizeof(pins) / sizeof(int);
-    *this->servo = new Servo[this->countDevice];
+void Legs4::init(int *pins){
+    this->countDevice = 2;
+    this->servo = (Servo**)realloc(this->servo, sizeof(Servo) * this->countDevice);
     for (int i = 0; i < this->countDevice; i++)
     {
         this->servo[i] = new Servo;
@@ -25,11 +26,10 @@ void Legs4::servoRotate(int first, int second)
  */
 void Legs4::step()
 {
-    int first = this->side ? 120 : 60;
-    int second = this->side ? 60 : 120;
+    int first = this->side ? 180 : 0;
+    int second = !this->side ? 180 : 0;
 
     this->servoRotate(first, second);
-
     this->side = !this->side;
 };
 
