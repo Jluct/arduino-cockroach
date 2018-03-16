@@ -23,9 +23,9 @@ bool Event::analizSensors()
 {
     for (int i = 0; i < this->countLogic; i++)
     {
-        Serial.println("1, DEC");
+        Serial.println("analizSensors");
         digitalWrite(13, !digitalRead(13));
-        delay(1000);
+        // delay(1000);
         if (this->logic[i](this))
         {
             return true;
@@ -88,7 +88,7 @@ void Event::setActive(bool active)
 
 void Event::addBehavior(Behavior *behavior)
 {
-    this->behavior = (Behavior **)realloc(this->behavior, (this->countBehavior + 1) * sizeof(Behavior));
+    this->behavior = (Behavior **)realloc(this->behavior, (this->countBehavior + 1) * sizeof(Behavior*));
     behavior->setNumber(this->countBehavior);
     this->behavior[this->countBehavior] = behavior;
     this->countBehavior++;

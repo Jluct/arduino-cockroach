@@ -1,12 +1,10 @@
 /**
- * Где то утечка памяти!..Наверно
- * МК уходит в ресет
- * Необходимо пересмотреть алгоритмы динамического выделения памяти
+ * В ресет больше не уходим, но цикла проверки по прежнему нет
+ * Проблема в отсутствии задержки?
  * 
  * При передаче данных на большой скорости в сериал они доходят
  * При ниской скорости - только 2 байта
  * При ниской скорости и задержке - доходят!
- * 
  */
 
 #include <Arduino.h>
@@ -24,7 +22,8 @@ int isLight()
     // return analogRead(A0);
     // int data = random(0, 1023);
     int data = 0;
-    // Serial.println((int)2, DEC);
+    Serial.println("isLight");
+
     return data;
 }
 
@@ -65,11 +64,17 @@ DecisionMakingCenter dmc; // центр принятия решений
 
 void setup()
 {
+    /**
+     * Debug 
+     */
     Serial.begin(115200);
     pinMode(13, OUTPUT);
 
-    digitalWrite(13, !digitalRead(13));
+    /**
+     * Дебаг показывающий, что скетч инициализируется
+     */
     Serial.println("setup");
+    digitalWrite(13, HIGH);
     delay(1000);
 
     int pins[] = {9, 10};
@@ -109,7 +114,9 @@ void setup()
 
 void loop()
 {
-    // Serial.println("LOOP");
+    Serial.println("LOOP");
+    delay(300);
     dmc.testSituation(); // проверяем не наступило ли событие
+    delay(300);
     dmc.callBehavior();  // вызываем обработчик события по ситуации
 }

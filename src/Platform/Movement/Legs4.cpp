@@ -2,9 +2,10 @@
 #include <Arduino.h>
 #include "Servo.h"
 
-void Legs4::init(int *pins){
+void Legs4::init(int *pins)
+{
     this->countDevice = 2;
-    this->servo = (Servo**)realloc(this->servo, sizeof(Servo) * this->countDevice);
+    this->servo = (Servo **)realloc(this->servo, sizeof(Servo *) * this->countDevice);
     for (int i = 0; i < this->countDevice; i++)
     {
         this->servo[i] = new Servo;

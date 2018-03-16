@@ -3,14 +3,14 @@
 
 void EventGenerator::addActiveEvent(Event *event)
 {
-    this->activeIvents = (Event **)realloc(this->activeIvents, (this->countActiveEvent + 1) * sizeof(Event));
+    this->activeIvents = (Event **)realloc(this->activeIvents, (this->countActiveEvent + 1) * sizeof(Event*));
     this->activeIvents[this->countActiveEvent] = event;
     this->countActiveEvent++;
 };
 
 void EventGenerator::removeActiveEvent(int eventNumber)
 {
-    Event **tmp = (Event **)realloc(tmp, (this->countActiveEvent - 1) * sizeof(Event));
+    Event **tmp = (Event **)realloc(tmp, (this->countActiveEvent - 1) * sizeof(Event*));
     for (int i = 0; i < this->countActiveEvent; i++)
     {
         if (i == eventNumber)
@@ -23,8 +23,8 @@ void EventGenerator::removeActiveEvent(int eventNumber)
 
     this->countActiveEvent--;
     delete[] this->activeIvents;
-    this->activeIvents = (Event **)realloc(this->activeIvents, this->countActiveEvent * sizeof(Event));
-    memcpy(this->activeIvents, tmp, this->countActiveEvent * sizeof(Event));
+    this->activeIvents = (Event **)realloc(this->activeIvents, this->countActiveEvent * sizeof(Event*));
+    memcpy(this->activeIvents, tmp, this->countActiveEvent * sizeof(Event*));
     delete[] tmp;
 }
 
@@ -40,7 +40,7 @@ void EventGenerator::addEvent(Event *event)
         return;
     }
     this->countEvents++;
-    this->events = (Event **)realloc(this->events, this->countEvents * sizeof(Event));
+    this->events = (Event **)realloc(this->events, this->countEvents * sizeof(Event*));
     this->events[this->countEvents] = event;
 };
 

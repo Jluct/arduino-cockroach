@@ -48,6 +48,8 @@ void DecisionMakingCenter::callBehavior()
  * Если событие было вызвано то управление передаётся дальше
  * Если нет - уменьшаем счётчик текущей ситуации
  * 
+ * TODO: Пределы ситуциации вынести в свойства со значением по умолчанию
+ * 
  */
 void DecisionMakingCenter::testSituation()
 {
@@ -62,7 +64,7 @@ void DecisionMakingCenter::testSituation()
 
 void DecisionMakingCenter::addSituation(Situation *situation)
 {
-    this->situation = (Situation **)realloc(this->situation, sizeof(Situation) * (this->countSituation + 1));
+    this->situation = (Situation **)realloc(this->situation, sizeof(Situation*) * (this->countSituation + 1));
     this->situation[this->countSituation] = situation;
     this->countSituation++;
 };
