@@ -1,3 +1,14 @@
+/**
+ * Где то утечка памяти!..Наверно
+ * МК уходит в ресет
+ * Необходимо пересмотреть алгоритмы динамического выделения памяти
+ * 
+ * При передаче данных на большой скорости в сериал они доходят
+ * При ниской скорости - только 2 байта
+ * При ниской скорости и задержке - доходят!
+ * 
+ */
+
 #include <Arduino.h>
 #include "./DecisionMakingCenter/DecisionMakingCenter.h"
 #include "./DecisionMakingCenter/EventCenter/Event.h"
@@ -11,8 +22,9 @@ int isLight()
 {
     // Serial.println(110, DEC);
     // return analogRead(A0);
-    int data = random(0, 1023);
-    Serial.println((int)2, DEC);
+    // int data = random(0, 1023);
+    int data = 0;
+    // Serial.println((int)2, DEC);
     return data;
 }
 
@@ -53,7 +65,12 @@ DecisionMakingCenter dmc; // центр принятия решений
 
 void setup()
 {
-    Serial.begin(9600);
+    Serial.begin(115200);
+    pinMode(13, OUTPUT);
+
+    digitalWrite(13, !digitalRead(13));
+    Serial.println("setup");
+    delay(1000);
 
     int pins[] = {9, 10};
     Legs4 platform; // платформа "4 ноги"

@@ -23,10 +23,11 @@ bool Event::analizSensors()
 {
     for (int i = 0; i < this->countLogic; i++)
     {
-
+        Serial.println("1, DEC");
+        digitalWrite(13, !digitalRead(13));
+        delay(1000);
         if (this->logic[i](this))
         {
-            Serial.println("test");
             return true;
         }
     }
