@@ -9,7 +9,7 @@ class Event
   private:
     int number;          // Текущий номер в генераторе событий
     bool active = false; // Активно ли событие
-    short int type;      // Тип события
+    short int type = 0;  // Тип события
     int progress = 1;    // Шаг прогресса типа события при вызове события
     int regress = 1;     // Шаг регресса в случае если вобытие не было вызвано
 
@@ -19,7 +19,7 @@ class Event
     bool (**logic)(Event *event); // Массив обработки логики срабатывания события
     int countLogic = 0;           // Количество обработчиков
 
-    int actualSensor = 0;
+    int actualSensor = 0; // текущий сенсор
 
     Behavior **behavior;   // Массив поведений
     int countBehavior = 0; // Кол-во добавленных поведений
@@ -48,7 +48,7 @@ class Event
     * Добавляет сенсор в конец очереди
     */
     void setSensor(Sensor *sensor);
-    bool getSensor(int number, Sensor * sensor);
+    bool getSensor(int number, Sensor *sensor);
 
     void setProgress(int step);
     void setRegress(int step);

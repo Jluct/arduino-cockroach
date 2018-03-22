@@ -1,10 +1,10 @@
 /**
- * В ресет больше не уходим, но цикла проверки по прежнему нет
- * Проблема в отсутствии задержки?
+ * В ресет уходим, ищем причину,и цикла проверки по прежнему нет
+ * Проблема не в отсутствии задержки?
  * 
  * При передаче данных на большой скорости в сериал они доходят
- * При ниской скорости - только 2 байта
- * При ниской скорости и задержке - доходят!
+ * При низкой скорости - только 2 байта
+ * При низкой скорости и задержке - доходят!
  */
 
 #include <Arduino.h>
@@ -34,10 +34,15 @@ int isLight()
 bool tooBright(Event *event)
 {
     Sensor *sensor1;
-    // Serial.println((int)11, DEC);
+    // Serial.println("tooBright");
+    // проверяем есть ли такой сенсор
     if (event->getSensor(0, sensor1))
     {
-        return sensor1->getData() >= 100;
+        int data = sensor1->request();
+        Serial.println((int)data, DEC);
+        return data >= 100;
+    } else {
+        Serial.println("no");
     }
 
     return false;
@@ -45,7 +50,6 @@ bool tooBright(Event *event)
 
 /**
  * Логика поведения в случае генерирования события
- * TODO: Выбор интерпретации в зависимости от "очков ситуации"
  * Это позволит выбирать наиболее подходящее поведении в данный момент
  */
 void stepRunOfLight(Legs4 *platform)
@@ -93,30 +97,47 @@ void setup()
     struct Situation dangerSituation = {"danger", 0};   // ситуация "опасность"
 
     platform.init(pins); // Передаём массив с пинами для инициализации серво
-    // Serial.println(100, DEC);
 
     dmc.addSituation(&defaultSituation); // Добавляем дефолтную ситуацию
     dmc.addSituation(&dangerSituation);  // Добавляем ситуацию "опасность"
 
-    brightLocation.setType(1);      // Указываем тип события
+    brightLocation.setType(0);      // Указываем тип события
     brightLocation.setProgress(10); // Устанавливаем шаг прогресса ситуации
+
+    /** 
+     * ТОЧКА ЗАВИСАНИЯ
+     * Не хватает памяти?
+     * Поменял местами с setSensor 
+     * всё заработало
+    */
+    brightLocation.addBehavior(&defaultBehavior); // добавляем дефолтное поведение в событие
+    brightLocation.addBehavior(&runOfLight);      // добавляем поведение в событие в случае если локация освещена
 
     brightLocation.setSensor(&lightResistor); // добавляем "событию" сенсор
     brightLocation.addLogic(&tooBright);      // добавляем "событию" обработчик сенсора
 
-    brightLocation.addBehavior(&defaultBehavior); // добавляем дефолтное поведение в событие
-    brightLocation.addBehavior(&runOfLight);      // добавляем поведение в событие в случае если локация освещена
-
+    /** 
+     * ТОЧКА ЗАВИСАНИЯ
+     * LOOP выполняется только один раз
+     * приходит мусор
+     * Закоментил  dmc.init и всё заработало
+    */
     eventGenerator.addEvent(&brightLocation); // добавляем событие в генератор событий
 
     dmc.init(&platform, &eventGenerator); // центр принятия решений
+
+    digitalWrite(13, LOW);
 }
 
 void loop()
 {
     Serial.println("LOOP");
-    delay(300);
+    // digitalWrite(13, HIGH);
+    delay(1000);
+    // digitalWrite(13, LOW);
+    // delay(1000);
+    // delay(300);
     dmc.testSituation(); // проверяем не наступило ли событие
-    delay(300);
+    // delay(300);
     dmc.callBehavior();  // вызываем обработчик события по ситуации
 }

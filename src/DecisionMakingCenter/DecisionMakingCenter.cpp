@@ -54,8 +54,10 @@ void DecisionMakingCenter::callBehavior()
 void DecisionMakingCenter::testSituation()
 {
     Event *event;
+    // Serial.println("testSituation");
     if (this->eventGenerator->eventsAnalis(event))
     {
+        Serial.println("true");
         this->situation[event->getType()]->data += this->situation[event->getType()]->data < 500 ? event->getProgress() : 0;
     }
 

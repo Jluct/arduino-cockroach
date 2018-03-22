@@ -6,6 +6,9 @@ Sensor::Sensor(int (*call)())
     this->call = call;
 };
 
+/**
+ * Deprecatet 
+ */
 int Sensor::getData()
 {
     return this->data;
@@ -18,12 +21,13 @@ int Sensor::getData()
  */
 int Sensor::request()
 {
-    long int currentTime = millis();
+    unsigned long int currentTime = millis();
+    Serial.println(currentTime);
     if ((currentTime - this->lastCall) < this->validTime)
     {
         return this->data;
     }
     this->lastCall = currentTime;
-
-    return this->data = this->call();
+    this->data = this->call();
+    return this->data;
 };

@@ -3,7 +3,7 @@
 class Sensor
 {
   private:
-    int data;
+    int data = 0;
     int lastCall = 0;
     int validTime = 100;
     int (*call)();

@@ -21,10 +21,11 @@ int Event::getNumber()
  */
 bool Event::analizSensors()
 {
+    // Serial.println("analizSensors");
     for (int i = 0; i < this->countLogic; i++)
     {
-        Serial.println("analizSensors");
-        digitalWrite(13, !digitalRead(13));
+        // Serial.println(i);
+        // digitalWrite(13, !digitalRead(13));
         // delay(1000);
         if (this->logic[i](this))
         {
