@@ -1,14 +1,16 @@
 /**
  * В ресет уходим, ищем причину,и цикла проверки по прежнему нет
- * Проблема не в отсутствии задержки?
+ * Проблема не в отсутствии задержки
+ * Баг проявляется непредсказуемо и случайным образом
  * 
- * При передаче данных на большой скорости в сериал они доходят
- * При низкой скорости - только 2 байта
- * При низкой скорости и задержке - доходят!
+ * Подозрение на проблемы с динамическим выделением памяти
+ * Оловил несколько багов в добавлении и удалении активного ивента
+ * Результат не изменился
+ * 
  */
 
 // #include "Arduino.h"
-#include <C:\Users\Listopadov\.platformio\packages\framework-arduinoavr\cores\arduino\Arduino.h>
+#include <Arduino.h>
 #include "./DecisionMakingCenter/DecisionMakingCenter.h"
 #include "./DecisionMakingCenter/EventCenter/Event.h"
 #include "Servo.h"
@@ -104,24 +106,12 @@ void setup()
     brightLocation.setType(0);      // Указываем тип события
     brightLocation.setProgress(10); // Устанавливаем шаг прогресса ситуации
 
-    /** 
-     * ТОЧКА ЗАВИСАНИЯ
-     * Не хватает памяти?
-     * Поменял местами с setSensor 
-     * всё заработало
-    */
     brightLocation.addBehavior(&defaultBehavior); // добавляем дефолтное поведение в событие
     brightLocation.addBehavior(&runOfLight);      // добавляем поведение в событие в случае если локация освещена
 
     brightLocation.setSensor(&lightResistor); // добавляем "событию" сенсор
     brightLocation.addLogic(&tooBright);      // добавляем "событию" обработчик сенсора
 
-    /** 
-     * ТОЧКА ЗАВИСАНИЯ
-     * LOOP выполняется только один раз
-     * приходит мусор
-     * Закоментил  dmc.init и всё заработало
-    */
     eventGenerator.addEvent(&brightLocation); // добавляем событие в генератор событий
 
     dmc.init(&platform, &eventGenerator); // центр принятия решений
@@ -132,7 +122,7 @@ void setup()
 void loop()
 {
     Serial.println("LOOP");
-    // digitalWrite(13, HIGH);
+    digitalWrite(13, !digitalRead(13));
     delay(1000);
     // digitalWrite(13, LOW);
     // delay(1000);
