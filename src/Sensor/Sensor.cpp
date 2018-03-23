@@ -21,9 +21,9 @@ int Sensor::getData()
  */
 int Sensor::request()
 {
-    unsigned long int currentTime = millis();
-    Serial.println(currentTime);
-    if ((currentTime - this->lastCall) < this->validTime)
+    unsigned long currentTime = millis();
+    // Serial.println(currentTime);
+    if ((currentTime - this->lastCall) <= this->validTime)
     {
         return this->data;
     }

@@ -4,8 +4,8 @@ class Sensor
 {
   private:
     int data = 0;
-    int lastCall = 0;
-    int validTime = 100;
+    unsigned long lastCall = 0;
+    unsigned int validTime = 100;
     int (*call)();
 
   public:

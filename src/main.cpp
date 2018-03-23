@@ -7,13 +7,13 @@
  * При низкой скорости и задержке - доходят!
  */
 
-#include <Arduino.h>
+// #include "Arduino.h"
+#include <C:\Users\Listopadov\.platformio\packages\framework-arduinoavr\cores\arduino\Arduino.h>
 #include "./DecisionMakingCenter/DecisionMakingCenter.h"
 #include "./DecisionMakingCenter/EventCenter/Event.h"
 #include "Servo.h"
 
 /**
- * функция-заглушка
  * получение показаний с фоторезистора
  */
 int isLight()
@@ -34,12 +34,12 @@ int isLight()
 bool tooBright(Event *event)
 {
     Sensor *sensor1;
-    // Serial.println("tooBright");
+    Serial.println("tooBright");
     // проверяем есть ли такой сенсор
     if (event->getSensor(0, sensor1))
     {
         int data = sensor1->request();
-        Serial.println((int)data, DEC);
+        // Serial.println(data);
         return data >= 100;
     } else {
         Serial.println("no");
@@ -71,7 +71,7 @@ void setup()
     /**
      * Debug 
      */
-    Serial.begin(115200);
+    Serial.begin(9600);
     pinMode(13, OUTPUT);
 
     /**
@@ -126,7 +126,7 @@ void setup()
 
     dmc.init(&platform, &eventGenerator); // центр принятия решений
 
-    digitalWrite(13, LOW);
+    // digitalWrite(13, LOW);
 }
 
 void loop()
@@ -139,5 +139,5 @@ void loop()
     // delay(300);
     dmc.testSituation(); // проверяем не наступило ли событие
     // delay(300);
-    dmc.callBehavior();  // вызываем обработчик события по ситуации
+    // dmc.callBehavior();  // вызываем обработчик события по ситуации
 }

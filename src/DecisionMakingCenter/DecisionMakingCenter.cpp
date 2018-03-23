@@ -55,13 +55,15 @@ void DecisionMakingCenter::testSituation()
 {
     Event *event;
     // Serial.println("testSituation");
-    if (this->eventGenerator->eventsAnalis(event))
+    bool active = this->eventGenerator->eventsAnalis(event);
+    if (active)
     {
-        Serial.println("true");
+        Serial.println('t-true');
         this->situation[event->getType()]->data += this->situation[event->getType()]->data < 500 ? event->getProgress() : 0;
+        return;
     }
 
-    this->situation[event->getType()]->data -= this->situation[event->getType()]->data > 0 ? event->getRegress() : 0;
+    this->situation[event->getType()]->data -= this->situation[event->getType()]->data >= 0 ? event->getRegress() : 0;
 };
 
 void DecisionMakingCenter::addSituation(Situation *situation)

@@ -14,15 +14,15 @@ class Event
     int regress = 1;     // Шаг регресса в случае если вобытие не было вызвано
 
     Sensor **sensors;     // Массив сенсоров
-    int countSensors = 0; // Количество сенсоров
+    unsigned int countSensors = 0; // Количество сенсоров
 
     bool (**logic)(Event *event); // Массив обработки логики срабатывания события
-    int countLogic = 0;           // Количество обработчиков
+    unsigned int countLogic = 0;  // Количество обработчиков
 
-    int actualSensor = 0; // текущий сенсор
+    unsigned int actualSensor = 0; // текущий сенсор
 
     Behavior **behavior;   // Массив поведений
-    int countBehavior = 0; // Кол-во добавленных поведений
+    unsigned int countBehavior = 0; // Кол-во добавленных поведений
 
   public:
     Event();
@@ -40,7 +40,7 @@ class Event
     void setType(int type);
 
     int getCountSensors();
-    void callBehavior(int type, Legs4 *platform);
+    void callBehavior(unsigned int type, Legs4 *platform);
 
     void addBehavior(Behavior *behavior);
 
@@ -48,7 +48,7 @@ class Event
     * Добавляет сенсор в конец очереди
     */
     void setSensor(Sensor *sensor);
-    bool getSensor(int number, Sensor *sensor);
+    bool getSensor(unsigned int number, Sensor *sensor);
 
     void setProgress(int step);
     void setRegress(int step);

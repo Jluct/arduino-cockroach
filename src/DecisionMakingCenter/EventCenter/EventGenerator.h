@@ -13,8 +13,8 @@ private:
   int countEvents = 0;
 
   /**
-     * Номер проверяемого события
-     */
+   * Номер проверяемого события
+   */
   int currentIvent = 0;
 
   void addActiveEvent(Event *event);

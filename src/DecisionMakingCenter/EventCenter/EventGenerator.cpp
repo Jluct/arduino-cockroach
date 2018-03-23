@@ -3,6 +3,14 @@
 
 void EventGenerator::addActiveEvent(Event *event)
 {
+    for (int i = 0; i < this->countActiveEvent; i++)
+    {
+        if (this->activeIvents[i]->getNumber() == event->getNumber())
+        {
+            return;
+        }
+    }
+
     this->activeIvents = (Event **)realloc(this->activeIvents, (this->countActiveEvent + 1) * sizeof(Event *));
     this->activeIvents[this->countActiveEvent] = event;
     this->countActiveEvent++;
@@ -10,6 +18,11 @@ void EventGenerator::addActiveEvent(Event *event)
 
 void EventGenerator::removeActiveEvent(int eventNumber)
 {
+    if (!this->countActiveEvent || eventNumber < this->countActiveEvent)
+    {
+        return;
+    }
+
     Event **tmp = (Event **)realloc(tmp, (this->countActiveEvent - 1) * sizeof(Event *));
     for (int i = 0; i < this->countActiveEvent; i++)
     {
@@ -24,7 +37,10 @@ void EventGenerator::removeActiveEvent(int eventNumber)
     this->countActiveEvent--;
     delete[] this->activeIvents;
     this->activeIvents = (Event **)realloc(this->activeIvents, this->countActiveEvent * sizeof(Event *));
-    memcpy(this->activeIvents, tmp, this->countActiveEvent * sizeof(Event *));
+    if (this->countActiveEvent)
+    {
+        memcpy(this->activeIvents, tmp, this->countActiveEvent * sizeof(Event *));
+    }
     delete[] tmp;
 }
 
@@ -38,6 +54,9 @@ void EventGenerator::addEvent(Event *event)
     this->countEvents++;
 };
 
+/**
+ * Управляет внутренним указателем опроса событий
+ */
 void EventGenerator::controlCurrentIventCounter()
 {
     if (this->currentIvent >= this->countEvents)
@@ -57,25 +76,35 @@ void EventGenerator::controlCurrentIventCounter()
  * Событие добавляется в список активных событий
  * 
  * Event *eventStorage - ссылка на область памяти куда будет помещён объект события
+ * TODO: Плавающая шкала отключения события 
+ * 
  * 
  */
 bool EventGenerator::eventsAnalis(Event *eventStorage)
 {
-    // Serial.println("eventsAnalis");
+    Serial.println(this->currentIvent);
     eventStorage = this->events[this->currentIvent];
 
-    if (this->events[this->currentIvent]->analizSensors())
+    if (eventStorage->analizSensors())
     {
-        Serial.println("e true");
-        this->events[this->currentIvent]->setActive(true);
-        this->addActiveEvent(this->events[this->currentIvent]);
+        Serial.println("e-true");
+        if (!eventStorage->isActive())
+        {
+            Serial.println("e-add");
+            eventStorage->setActive(true);
+            this->addActiveEvent(eventStorage);
+        }
         this->controlCurrentIventCounter();
 
         return true;
     }
 
-    this->events[this->currentIvent]->setActive(false);
-    this->removeActiveEvent(this->currentIvent);
+    if (eventStorage->isActive())
+    {
+        Serial.println("e-remove");
+        this->removeActiveEvent(this->currentIvent);
+        eventStorage->setActive(false);
+    }
     this->controlCurrentIventCounter();
 
     return false;

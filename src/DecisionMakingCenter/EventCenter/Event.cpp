@@ -22,21 +22,22 @@ int Event::getNumber()
 bool Event::analizSensors()
 {
     // Serial.println("analizSensors");
-    for (int i = 0; i < this->countLogic; i++)
+    bool flag = true;
+    for (unsigned int i = 0; i < this->countLogic; i++)
     {
         // Serial.println(i);
         // digitalWrite(13, !digitalRead(13));
         // delay(1000);
-        if (this->logic[i](this))
+        if (!this->logic[i](this))
         {
-            return true;
+            flag = false;
         }
     }
 
-    return false;
+    return flag;
 };
 
-void Event::callBehavior(int type, Legs4 *platform)
+void Event::callBehavior(unsigned int type, Legs4 *platform)
 {
     this->behavior[type]->callBehavior(platform);
 };
@@ -71,10 +72,11 @@ void Event::addLogic(bool (*logic)(Event *event))
     this->countLogic++;
 };
 
-bool Event::getSensor(int number, Sensor *sensor)
+bool Event::getSensor(unsigned int number, Sensor *sensor)
 {
-    if (this->sensors[number])
+    if (number < this->countSensors)
     {
+        Serial.println("ERROR 301");
         sensor = this->sensors[number];
         return true;
     }
@@ -87,9 +89,14 @@ void Event::setActive(bool active)
     this->active = active;
 };
 
+bool Event::isActive()
+{
+    return this->active;
+};
+
 void Event::addBehavior(Behavior *behavior)
 {
-    this->behavior = (Behavior **)realloc(this->behavior, (this->countBehavior + 1) * sizeof(Behavior*));
+    this->behavior = (Behavior **)realloc(this->behavior, (this->countBehavior + 1) * sizeof(Behavior *));
     behavior->setNumber(this->countBehavior);
     this->behavior[this->countBehavior] = behavior;
     this->countBehavior++;
